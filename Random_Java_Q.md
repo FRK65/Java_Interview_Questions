@@ -472,7 +472,7 @@ System.out.println(s1 == s4); // true
 
 ---
 
-# 13. Difference between == and equals() 
+# 14. Difference between == and equals() 
 
 🗒️ Tip:
 
@@ -540,7 +540,7 @@ System.out.println(p.equals(q));   // true ✅
 
 ---
 
-# 14. what is Garbage Collection
+# 15. what is Garbage Collection
 
 **Garbage Collection** is the process by which **Java automatically frees memory** by removing objects that are **no longer reachable or used** by the program.
 
@@ -586,8 +586,44 @@ System.gc();  // Suggest JVM to run GC, but it’s not guaranteed to run immedia
 
 ---
 
+# 16. What is LocalDate and DayOfWeek ?
 
+**LocalDate** is a class in the java.time package.
+- It represents a date only (no time or timezone), like 2025-06-30.
+- It is a final class, so it cannot be extended.
+- Implements the Temporal, ChronoLocalDate, and Comparable interfaces.
+- Use : When you only need the year, month, and day (e.g., birthdays, holidays, deadlines).
+- For date calculations: adding/subtracting days, comparing dates, etc.
+Ex :
 
+```java
+    import java.time.LocalDate;
+
+    LocalDate today = LocalDate.now();
+    System.out.println(today); // 25-06-30
+    System.out.println(today.getDayOfWeek()); // Monday
+
+    LocalDate date = LocalDate.of(1947,8,15);
+    System.out.println(date);
+    System.out.println(date.getDayOfWeek()); // Friday
+    
+```
+
+**DayOfWeek** : DayOfWeek is an enum in java.time package.
+- It represents the seven days of the week: MONDAY, TUESDAY, ..., SUNDAY
+- It is an enum, not a class or interface.
+- Each constant (MONDAY, TUESDAY, etc.) has an associated numeric value (1 to 7).
+- When you want to find out the day of the week for a given date.
+```java
+
+LocalDate date = LocalDate.of(2025, 6, 30);
+
+DayOfWeek myday = date.getDayOfWeek();  // MONDAY
+
+System.out.println(myday);              // MONDAY
+System.out.println(myday.getValue());   // 1 (Monday = 1, Sunday = 7)
+
+```
 
 
 
