@@ -357,6 +357,191 @@ public class Main {
 
 ---
 
+# 11. What is Stack Memory ?
+
+* **Stack Memory** = Your **to-do list** (each method call is a task on the list).
+* **Heap Memory** = A **storage room** where you put things (objects) you might need across multiple tasks.
+
+In Java, memory is mainly divided into two important areas Stack and Heap :
+
+🗂️ **Stack Memory**
+
+* Used for: **Method execution and local variables**
+* Every time a method is called, a **"stack frame"** is created.
+* When the method finishes, the stack frame is removed.
+* **Faster** access and **automatically managed**.
+* Memory is **limited**, but very efficient.
+
+ ✅ Characteristics:
+
+* Stores **local variables** and **method calls**.
+* **Last-In, First-Out (LIFO)** structure.
+* Automatically cleaned when methods return.
+* Each thread has its own **stack** (it’s thread-safe).
+
+ 📌 Example:
+
+```java
+public void add() {
+    int a = 5; // 'a' stored in stack
+}
+```
+---
+# 12. What is **Heap Memory**
+
+** 🧳 Heap Memory**
+
+* Used for: **Objects and instance variables**
+* Objects are created using `new` are stored in heap.
+* Heap memory is **shared across threads**.
+* **Garbage Collector** cleans unused objects.
+
+✅ Characteristics:
+
+* Stores all **objects** created via `new`.
+* **Slower** than stack due to more complex management.
+* **Shared** among all threads.
+
+📌 Example:
+
+```java
+Person p = new Person(); // 'p' is a reference in the stack, object is in the heap
+```
+
+🔍 Visual Summary:
+
+| Feature      | Stack                         | Heap                              |
+| ------------ | ----------------------------- | --------------------------------- |
+| Stores       | Local variables, method calls | Objects, instance variables       |
+| Access Speed | Fast                          | Slower                            |
+| Size         | Small                         | Large                             |
+| Scope        | Per thread                    | Shared among all threads          |
+| Lifetime     | Until method ends             | Until object is garbage collected |
+| Managed By   | Java automatically            | Garbage Collector                 |
+
+---
+
+# 13. what is String Constant Pool?
+
+The String Constant Pool is a special memory area inside the Heap where Java stores string literals to save memory and improve performance.
+-Instead of creating a new String object every time, Java reuses existing literals from the pool.
+
+**String Constant Pool** = String Intern Pool
+
+✅ Example:
+
+```java
+String s1 = "Java";
+String s2 = "Java";
+
+System.out.println(s1 == s2); // true
+```
+
+> ✅ Both `s1` and `s2` refer to the **same object** in the **String pool**, not two separate ones.
+
+
+
+🔧 But when you use `new String()`:
+
+```java
+String s3 = new String("Java");
+System.out.println(s1 == s3); // false
+```
+
+> ❌ `s3` refers to a **new object** in the heap, even though the value is the same.
+
+
+✅ Why is this useful?
+
+* **Reduces memory usage** by reusing strings.
+* **Improves performance** for string comparison using `==`.
+
+🔁 You can manually add to the pool:
+
+```java
+String s4 = new String("Java").intern();
+System.out.println(s1 == s4); // true
+```
+
+ ✅ Summary:
+
+| Concept                  | Location    | Purpose                               |
+| ------------------------ | ----------- | ------------------------------------- |
+| **String Constant Pool** | Inside Heap | Stores unique string literals         |
+| `==` works with literals | Yes         | Because they point to the same object |
+
+---
+
+# 13. Difference between == and equals() 
+
+🗒️ Tip:
+
+Always use `.equals()` when comparing **String content**.
+
+
+🔍 `==` vs `.equals()` in Java
+
+| Comparison Type | `==` operator                                        | `.equals()` method                                  |
+| --------------- | ---------------------------------------------------- | --------------------------------------------------- |
+| Compares        | **Memory reference (address)**                       | **Object content (value/data)**                     |
+| Type            | Operator                                             | Method from `Object` class (overridden in `String`) |
+| Use Case        | Check if two references point to the **same object** | Check if two objects have the **same value**        |
+
+
+
+💡 Concept with **Heap** and **String Constant Pool**
+
+Example 1: Using String Literals (String Constant Pool)
+
+```java
+String a = "Java";
+String b = "Java";
+
+System.out.println(a == b);        // true ✅ (same object in pool)
+System.out.println(a.equals(b));   // true ✅ (same content)
+```
+
+✅ Both `"Java"` literals point to the **same memory location** in the **String Constant Pool** inside the **Heap**, so `==` is `true`.
+
+
+
+Example 2: Using `new String()` (Heap objects)
+
+```java
+String x = new String("Frank");
+String y = new String("Frank");
+
+System.out.println(x == y);        // false ❌ (different objects in heap)
+System.out.println(x.equals(y));   // true ✅ (same content)
+```
+
+🚫 `==` is `false` because `x` and `y` are **two different objects** in the **heap**, even though their values are the same.
+
+✅ `.equals()` is `true` because it compares the **contents** of the strings.
+
+
+Example 3: Mixing new and literal
+
+```java
+String p = "Java";
+String q = new String("Java");
+
+System.out.println(p == q);        // false ❌
+System.out.println(p.equals(q));   // true ✅
+```
+
+🧠 Summary with Memory Concepts:
+
+| Case                                       | Stored In    | `==` result | `.equals()` result | Why?                          |
+| ------------------------------------------ | ------------ | ----------- | ------------------ | ----------------------------- |
+| `"Java" == "Java"`                         | String Pool  | `true`      | `true`             | Same pool object              |
+| `new String("Java") == new String("Java")` | Heap         | `false`     | `true`             | Different objects, same value |
+| `"Java" == new String("Java")`             | Pool vs Heap | `false`     | `true`             | Different memory locations    |
+
+---
+
+
+
 
 
 
