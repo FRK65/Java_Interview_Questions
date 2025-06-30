@@ -540,6 +540,54 @@ System.out.println(p.equals(q));   // true ✅
 
 ---
 
+# 14. what is Garbage Collection
+
+**Garbage Collection** is the process by which **Java automatically frees memory** by removing objects that are **no longer reachable or used** by the program.
+
+✅ Summary:
+
+| Question                  | Answer                                                                     |
+| ------------------------- | -------------------------------------------------------------------------- |
+| What is GC?               | Automatic memory cleanup of unused objects                                 |
+| Who invokes GC?           | JVM (automatic), programmer can request via `System.gc()` but no guarantee |
+| When is GC invoked?       | When JVM detects low memory or on request                                  |
+| What memory is collected? | Heap memory only                                                           |
+| Can programmers force GC? | Can request but no guarantee; no direct control                            |
+| Popular GC algorithms     | Serial, Parallel, CMS, G1, ZGC, Shenandoah                                 |
+
+
+- When and Who Invokes Garbage Collection?
+
+* **Invoked automatically** by the **JVM (Java Virtual Machine)** when it detects that memory is low or as needed.
+* You **cannot control exactly when GC runs**, but you can **request** it by calling `System.gc()` (just a request, not guaranteed).
+* **Programmers do NOT usually call GC directly.**
+
+- 🧠 Which Memory Does Garbage Collector Clean?
+
+* GC primarily collects objects in the **Heap memory** (where Java objects live).
+* It **does NOT clean Stack memory**, which stores local variables and method calls.
+
+🛠️ How to request Garbage Collection?
+
+```java
+System.gc();  // Suggest JVM to run GC, but it’s not guaranteed to run immediately
+```
+
+🔥 Famous and Latest Garbage Collection Algorithms in Java:
+
+| Algorithm Name                  | Description                                                        | Java Version Introduced / Popular In               |
+| ------------------------------- | ------------------------------------------------------------------ | -------------------------------------------------- |
+| **Serial GC**                   | Single-threaded GC, good for small apps                            | Early JVMs, simple but stops all threads during GC |
+| **Parallel GC**                 | Multi-threaded GC, good for multi-core                             | Java 5+, default in many JDK versions              |
+| **CMS (Concurrent Mark Sweep)** | Minimizes pause times by running concurrently                      | Java 5 - Java 8                                    |
+| **G1 (Garbage-First GC)**       | Divides heap into regions, works concurrently, reduces pause times | Java 7+, became default in Java 9+                 |
+| **ZGC (Z Garbage Collector)**   | Low-latency GC, designed for very large heaps                      | Java 11+, aims for sub-millisecond pauses          |
+| **Shenandoah GC**               | Low-pause-time GC, similar to ZGC                                  | Java 12+, also targets large heaps and low pause   |
+
+---
+
+
+
 
 
 
