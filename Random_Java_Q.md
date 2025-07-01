@@ -779,7 +779,41 @@ Summary:
 
 * **`map()`**: One-to-one transformation.
 * **`flatMap()`**: One-to-many transformation with flattening.
-  
+
+  🔍 Key Difference:
+map()
+ - Used for one-to-one transformation
+ - Each element is transformed independently
+ - Output is usually a Stream of objects
+ - Common use: converting types or applying simple logic
+ - Example:
+ - 
+```java
+       Stream<String> → Stream<Integer> (lengths of strings)
+```
+flatMap()
+ - Used for one-to-many transformation and flattening
+ - Flattens nested structures (like arrays or collections)
+ - Output is a single flattened Stream
+ - Common use: flattening List<List<T>> or splitting strings
+- Example:
+
+```java
+      Stream<List<String>> → Stream<String>
+```
+
+✅ Example:
+```java
+List<String> words = Arrays.asList("Java", "Spring");
+List<String> result = words.stream()
+ .map(word -> word.split(""))    // Stream<String[]>
+ .flatMap(Arrays::stream)      // Stream<String>
+ .distinct()
+ .collect(Collectors.toList());
+
+System.out.println(result); // [J, a, v, S, p, r, i, n, g]
+```
+ 
 comparing **`map()`** and **`flatMap()`** in Java Streams:
 
 | **Concept**              | **`map()`**                                       | **`flatMap()`**                                                                      |
@@ -791,6 +825,7 @@ comparing **`map()`** and **`flatMap()`** in Java Streams:
 | **Example**              | `stream.map(String::length)`                      | `stream.flatMap(list -> list.stream())`                                              |
 | **Handling Collections** | Each element maps to a single transformed value.  | Each element maps to a stream of values, and those are flattened.                    |
 | **Performance**          | Operates on individual elements (simpler).        | Slightly more complex due to flattening.                                             |
+
 
 ---
 
