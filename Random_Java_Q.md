@@ -773,6 +773,28 @@ public class CollectExample {
 }
 ```
 
+# 24. Diffrence between `map()` and `flatMap()` in Java Streams:
+
+Summary:
+
+* **`map()`**: One-to-one transformation.
+* **`flatMap()`**: One-to-many transformation with flattening.
+  
+comparing **`map()`** and **`flatMap()`** in Java Streams:
+
+| **Concept**              | **`map()`**                                       | **`flatMap()`**                                                                      |
+| ------------------------ | ------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| **Purpose**              | Transforms each element into exactly one element. | Transforms each element into a stream of elements, then flattens the streams.        |
+| **Function Output**      | A function that returns a single value.           | A function that returns a stream of values.                                          |
+| **Result**               | Stream of transformed elements (one-to-one).      | Stream of flattened elements (one-to-many).                                          |
+| **Use Case**             | When you need to modify or convert each element.  | When you need to flatten nested collections or generate multiple values per element. |
+| **Example**              | `stream.map(String::length)`                      | `stream.flatMap(list -> list.stream())`                                              |
+| **Handling Collections** | Each element maps to a single transformed value.  | Each element maps to a stream of values, and those are flattened.                    |
+| **Performance**          | Operates on individual elements (simpler).        | Slightly more complex due to flattening.                                             |
+
+---
+
+
 
 
 
