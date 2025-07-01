@@ -624,8 +624,154 @@ System.out.println(myday);              // MONDAY
 System.out.println(myday.getValue());   // 1 (Monday = 1, Sunday = 7)
 
 ```
+---
 
+# 17. What is Memory Leak in java ?
+A **memory leak** in Java happens when the program allocates memory for objects but doesn’t release it when the objects are no longer needed. This prevents the garbage collector from cleaning them up, leading to increased memory usage over time.
 
+Common causes include:
+
+* Keeping unnecessary objects in collections.
+* Not unregistering event listeners or callbacks.
+* Holding objects in static fields.
+* Failing to stop threads properly.
+
+This can cause your application to slow down, crash, or run out of memory.
+
+---
+
+# 18. How to prevent memory leaks ?
+
+To prevent memory leaks in Java:
+
+1. **Nullify references** when done with objects.
+2. **Remove objects** from collections when not needed.
+3. **Unregister listeners/callbacks** when finished.
+4. Use **WeakReferences** for infrequent or large objects.
+5. Avoid **static references** to objects.
+6. **Close resources** (files, DB connections) properly.
+7. **Monitor memory usage** with profiling tools.
+
+These steps help ensure objects are garbage collected when no longer needed.
+
+# 19. How do you prevent memory leaks caused by event listeners? 
+To prevent memory leaks caused by **event listeners** in Java:
+
+1. **Unregister listeners** when they are no longer needed or when the object they are listening to is disposed of.
+
+   ```java
+   eventSource.removeListener(myListener);
+   ```
+
+2. **Use Weak References** for listeners, so they don’t prevent garbage collection when the listener object is no longer in use.
+
+   ```java
+   WeakReference<MyListener> weakListener = new WeakReference<>(myListener);
+   ```
+
+3. **Add and remove listeners properly** in lifecycle methods (like `addListener()` in `init()` and `removeListener()` in `dispose()`).
+
+4. **Avoid holding strong references** to listeners in the objects they are attached to (like GUI components), as this will prevent garbage collection.
+
+By unregistering listeners and using weak references, you ensure they don’t keep objects in memory unnecessarily.
+
+---
+
+# 20. What is the purpose of the PhantomReference class in Java?
+
+The PhantomReference class in Java is part of the java.lang.ref package, and its purpose is to provide a way to track objects that are ready for garbage collection but haven't been collected yet. It is the most "advanced" type of reference in Java and is used in scenarios where you need to take action after an object has been garbage collected.
+
+**Purpose**:
+`PhantomReference` is used to track objects that are **about to be garbage collected**, allowing you to perform cleanup actions (like releasing resources) **after the object is collected** but before memory is reclaimed.
+
+**Key Points**:
+
+* **Doesn't prevent GC**: Unlike `WeakReference`, it doesn’t keep the object alive.
+* **Works with `ReferenceQueue`**: The reference is placed in a `ReferenceQueue` when the object is about to be garbage collected.
+* **Used for resource cleanup**: Typically used for managing native resources or memory outside the JVM.
+
+**Use case**:
+It's used in scenarios like custom memory management or releasing resources that are tied to objects but not managed by the JVM's garbage collector.
+
+---
+
+# 21. What are the advantages of using enum types over constant variables?
+
+Enums are a more robust and flexible solution than constant variables, offering type safety, better organization, namespace encapsulation, additional functionality, and easier code maintenance.
+
+Advantages of Enums over Constant Variables:
+1. Type Safety: Enums ensure only valid values are used, whereas constants don’t.
+2. Readability: Enums are more descriptive and easier to understand.
+3. Namespace Organization: Enums group related constants, avoiding naming conflicts.
+4. Extra Functionality: Enums can have methods and fields, offering more flexibility.
+5. Built-in Methods: Enums provide useful methods like values(), valueOf(), and ordinal().
+6. Extensibility: Enums are easier to extend if you need to add more values or logic.
+
+In short, enums are safer, more organized, and flexible compared to constant variables.
+
+---
+
+# 22. difference between HashMap and TreeMap in terms of ordering and performance?
+
+In short:
+
+* **`HashMap`**: Unordered, faster for most operations.
+* **`TreeMap`**: Ordered, but slower due to sorting.
+
+comparison between **`HashMap`** and **`TreeMap`** in table form:
+
+| Feature              | **`HashMap`**                                          | **`TreeMap`**                                            |
+| -------------------- | ------------------------------------------------------ | -------------------------------------------------------- |
+| **Ordering**         | No specific order, unordered                           | Sorted by natural ordering or custom comparator          |
+| **Time Complexity**  | **`O(1)`** for `put()`, `get()`, `remove()` on average | **`O(log n)`** for `put()`, `get()`, `remove()`          |
+| **Data Structure**   | Hash table                                             | Red-Black Tree (Self-balancing BST)                      |
+| **Null Keys/Values** | Allows **one null key** and **multiple null values**   | Does not allow **null keys**, but allows **null values** |
+| **Performance**      | Faster for most operations (on average)                | Slower due to tree balancing (logarithmic time)          |
+| **Use Case**         | When you don’t need ordering, faster lookups           | When you need sorted order of keys                       |
+
+---
+
+# 23. Explain how the Stream.collect() method works with collectors
+
+The `Stream.collect()` method in Java is a **terminal operation** used to transform a stream into a different form, usually a collection like a **List**, **Set**, or **Map**. It takes a **`Collector`** as an argument, which defines how the elements should be accumulated.
+
+**Common Collectors:**
+
+1. **`Collectors.toList()`**: Collects elements into a `List`.
+2. **`Collectors.toSet()`**: Collects elements into a `Set`.
+3. **`Collectors.toMap()`**: Collects elements into a `Map`.
+4. **`Collectors.joining()`**: Concatenates elements into a single string.
+
+ How it Works:
+
+* **`collect()`** accumulates the elements of a stream into a result container, such as a collection or a custom object.
+* **`Collector`** defines the **accumulation logic**, and it provides three important components:
+
+  1. **Supplier**: Provides an empty container (e.g., a new list).
+  2. **Accumulator**: Adds elements to the container.
+  3. **Combiner**: Combines two partial results (used in parallel streams).
+
+### Example:
+
+```java
+import java.util.*;
+import java.util.stream.*;
+
+public class CollectExample {
+    public static void main(String[] args) {
+
+        List<String> words = Arrays.asList("apple", "banana", "cherry", "date");
+        
+        // Using Collectors.toList() to collect stream into a List
+
+        List<String> collected = words.stream()
+                                      .filter(w -> w.startsWith("a"))
+                                      .collect(Collectors.toList());
+        
+        System.out.println(collected);  // Output: [apple]
+    }
+}
+```
 
 
 
